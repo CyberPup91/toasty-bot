@@ -1,0 +1,164 @@
+# ============================================================
+# GLOBAL TRIGGER KEYWORD PATTERNS
+# Evaluated top-to-bottom (case-insensitive) for type: "timer"
+# ============================================================
+triggers:
+  # --- Multi-word / Specific Triggers (Must stay above generic ones) ---
+  - label: "Name Spell"
+    pattern: '\bname\s*spell(ing|s)?\b'
+
+  - label: "Name Trace"
+    pattern: '\bname\s*trac(e|ing|es)\b'
+
+  - label: "Hair Brushing"
+    pattern: '\bhair\s*brush(ing|es)?\b'
+
+  - label: "Brushing"
+    pattern: '\bbrush(ing|es|y)?\b'
+
+  - label: "Glass Tappies"
+    pattern: '\bglass\s*tapp?(ing|s|ies|y)?\b'
+
+  - label: "Mic Taps"
+    pattern: '\b(mic\s*)?tapp?(ing|s|ies|y)?\b'
+
+  - label: "Mic Scratchies"
+    pattern: '\b(mic\s*)?scratch(ing|es|y|ies)?\b'
+
+  - label: "Mic Blowing"
+    pattern: '\b(mic\s*)?blow(ing|s)?\b'
+
+  - label: "Trigger Word: {word}"
+    pattern: '\btrigger\s*word(s)?(?:\s*[:\-]?\s*(?P<word>[a-zA-Z0-9''\-\s]{1,25}))?\b'
+
+  - label: "Pen Clicks"
+    pattern: '\b(pen\s*)?click(ing|s|y)?\b'
+
+  - label: "Paper Tears"
+    pattern: '\b(paper\s*)?tear(ing|s)?\b'
+
+  - label: "Slug Fidget"
+    pattern: '\bslug(\s*fidget)?\b|\bfidget(\s*slug)?\b'
+
+  - label: "Hand Sounds"
+    pattern: '\bhand\s*(sound(s)?|movement(s)?)?\b'
+
+  - label: "Close Up Breathing"
+    pattern: '\b(close[\s-]*up\s*)?breath(ing|s|y)?\b'
+
+  # --- Single-Word Triggers ---
+  - label: "Humming"
+    pattern: '\bhum(s|ming)?\b'
+
+  - label: "Crinkles"
+    pattern: '\bcrinkl(e|es|ing|y)\b'
+
+  - label: "Kisses"
+    pattern: '\bkiss(es|ing|ies|y)?\b'
+
+  - label: "Misting"
+    pattern: '\b(water\s*)?mist(ing|s|er)?\b|\bspray(ing|s)?\b'
+
+  # 1. Matches "good <word>" or "goodest <word>" (captures any word after "good")
+  - pattern: '\bgood(?:est)?\s+(?P<word>[a-z''-]+)'
+    label: "Good {word}"
+
+  # 2. Matches standalone pet/honorific words when "good" isn't typed
+  - pattern: '\b(?P<word>boy|boi|girl|gurl|pet|pup|puppy|dog|doggo|cat|kitty|kitten|fox|bunny|critter|creature)\b'
+    label: "Good {word}"
+
+  # --- Copy-paste trigger template ---
+  # - label: "Trigger Display Name"
+  #   pattern: '\bkeyword(s|ing)?\b'
+
+
+# ============================================================
+# CHANNEL POINT REWARDS
+# ============================================================
+rewards:
+  # --- Active Rewards ---
+
+  - match_title: "ASMR trigger"
+    type: "timer"
+    trigger_on: "fulfilled"
+    command_prefix: "$t"        # stages paused on screen; use "!time" to start immediately
+    non_sub_duration_minutes: 2     # 2 mins for non-subs
+    sub_duration_minutes: 2         # 5 mins for subs (fallback if tier_durations isn't set)
+    # Optional per-tier overrides:
+    # tier_durations:
+    #   "1000": 5
+    #   "2000": 7
+    #   "3000": 10
+    fallback_label: "ASMR Trigger"
+
+  - match_title: "ASMR trigger {sub tier 1}"
+    type: "timer"
+    trigger_on: "fulfilled"
+    command_prefix: "$t"
+    non_sub_duration_minutes: 1
+    sub_duration_minutes: 4
+    fallback_label: "ASMR Trigger {Sub Tier 1}"
+
+  - match_title: "ASMR trigger {sub tier 2-3}"
+    type: "timer"
+    trigger_on: "fulfilled"
+    command_prefix: "$t"
+    non_sub_duration_minutes: 1
+    sub_duration_minutes: 1
+    tier_durations:
+      "1000": 1
+      "2000": 6
+      "3000": 6
+    fallback_label: "ASMR Trigger {Sub Tier 2-3}"
+
+  - match_title: "ASMR trigger {5+ gifted}"
+    type: "timer"
+    trigger_on: "fulfilled"
+    command_prefix: "$t"
+    non_sub_duration_minutes: 10
+    sub_duration_minutes: 10
+    fallback_label: "ASMR Trigger {5+ Gifted}"
+
+  - match_title: "good boy/girl/pet"
+    type: "timer"
+    trigger_on: "fulfilled"
+    command_prefix: "$t"        # stages paused on screen; use "!time" to start immediately
+    non_sub_duration_minutes: 2     # 2 mins for non-subs
+    sub_duration_minutes: 2         # 5 mins for subs (fallback if tier_durations isn't set)
+    # # Optional per-tier overrides:
+    # tier_durations:
+    #   "1000": 5
+    #   "2000": 7
+    #   "3000": 10
+    fallback_label: "good boy/girl/pet"
+
+  # - match_title: "Raffle"
+  #   type: "command"
+  #   trigger_on: "fulfilled"
+  #   command: "!raffle"
+
+  # ==========================================================
+  # COPY-PASTE TEMPLATES (Uncomment and edit to add new ones)
+  # ==========================================================
+
+  # 1. Timer Redeem (runs immediately when completed in queue)
+  # - match_title: "Exact Twitch Reward Title"
+  #   type: "timer"
+  #   trigger_on: "fulfilled"          # "fulfilled" = on Complete (or Skip-Queue)
+  #   duration_minutes: 5
+  #   command_prefix: "!time"          # Use "!ptime" if you want it staged paused
+  #   fallback_label: "Custom Trigger ({user})"
+
+  # 2. Staged/Paused Timer Redeem (waits to be unpaused)
+  # - match_title: "Exact Twitch Reward Title"
+  #   type: "timer"
+  #   trigger_on: "fulfilled"
+  #   duration_minutes: 10
+  #   command_prefix: "!ptime"
+  #   fallback_label: "Paused Timer ({user})"
+
+  # 3. Simple Chat Command Redeem (supports {user} and {input} variables)
+  # - match_title: "Exact Twitch Reward Title"
+  #   type: "command"
+  #   trigger_on: "fulfilled"          # Use "add" to fire before queue approval
+  #   command: "!somecommand {user}"

@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Token files
+.tio.tokens.json
+
+# Database
+*.db
+*.db-journal
+
+# Generated/runtime
+*.pyc
+__pycache__/
+*.pyo
+.vscode/
+.idea/
+
+# Data files (contain raider history)
+raids_in.csv
+raids_out.csv
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

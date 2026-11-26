@@ -1,0 +1,18 @@
+services:
+  toasty-bot:
+    build: .
+    container_name: toasty-bot
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    volumes:
+      - ./bot_data.db:/app/bot_data.db
+      - ./.env:/app/.env
+      - ./redeems.yaml:/app/redeems.yaml
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
